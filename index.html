@@ -210,6 +210,133 @@
   color: transparent !important;
   font-weight: 900 !important;
 }
+
+/* ===== Overrides for status colors, buttons, and link button per request ===== */
+
+/* 1) 狀態文字：顏色 + 粗體 + 同色陰影 */
+.status .badge.ok + .status-label .zh,
+.status .badge.ok + .status-label .en{
+  color:#47D45A !important;
+  font-weight:900 !important;
+  text-shadow:0 0 6px rgba(71,212,90,.65) !important;
+}
+.status .badge.warn + .status-label .zh,
+.status .badge.warn + .status-label .en{
+  color:#FFC000 !important;
+  font-weight:900 !important;
+  text-shadow:0 0 6px rgba(255,192,0,.6) !important;
+}
+.status .badge.bad + .status-label .zh,
+.status .badge.bad + .status-label .en{
+  color:#C00000 !important;
+  font-weight:900 !important;
+  text-shadow:0 0 6px rgba(192,0,0,.6) !important;
+}
+
+/* 2) 確認 / 邀請函按鈕：改成「開啟連結」的外觀，但 hover 仍保留彩虹外框 */
+.actions .btn{
+  border: none !important;
+  background: rgba(0,255,209,.08) !important;
+  box-shadow: 0 0 0 1px rgba(0,255,209,.25),
+              0 0 18px rgba(0,255,209,.18) inset,
+              0 0 20px rgba(0,255,209,.15) !important;
+  color: #e5e7eb !important;
+  font-weight: 800 !important;
+  padding: 6px 9px;
+  border-radius: 10px;
+}
+.actions .btn:hover{
+  background: rgba(0,255,209,.08) !important;
+  box-shadow: 0 0 0 1px rgba(0,255,209,.35),
+              0 0 22px rgba(0,255,209,.22) inset,
+              0 0 24px rgba(0,255,209,.20) !important;
+  border: 1px solid transparent !important;
+  border-image: var(--rainbow) 1 !important;
+}
+
+/* 3) 開啟連結按鈕：青色文字 + 底線；移除外光與外框 */
+.link-btn{
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  color: #00FFD1 !important;
+  text-decoration: underline !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 800 !important;
+}
+.link-btn:hover{
+  text-decoration: underline !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+
+/* ===== 按鈕縮小高度與字體 (Confirm / Invite buttons only) ===== */
+.actions .btn{
+  padding: 4px 8px !important;
+  border-radius: 9px !important;
+  font-size: 11.5px !important;
+  line-height: 1.2 !important;
+}
+.actions .btn .zh{
+  font-size: 11.5px !important;
+}
+.actions .btn .en{
+  font-size: 10px !important;
+}
+
+
+  /* === 狀態統計列（首頁） === */
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 10px}
+  .stats .chip{display:flex;align-items:center;gap:8px;background:#0f1117;border:1px solid #2b3244;border-radius:999px;padding:6px 10px}
+  .stats .chip .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .stats .chip.ok .dot{background:#22c55e}
+  .stats .chip.warn .dot{background:#f59e0b}
+  .stats .chip.bad .dot{background:#ef4444}
+  .stats .chip .lab{font-size:12px;color:#aeb7c2}
+  .stats .chip .num{font-size:13px;color:#fff;min-width:14px;text-align:right}
+
+  /* IG 連結：使用 SVG 圖示 */
+  .ig-link{display:inline-flex;align-items:center;gap:6px;padding:4px 6px;border-radius:8px;color:#E1306C}
+  .ig-link svg{width:16px;height:16px;display:block}
+  .ig-link:hover{background:linear-gradient(90deg, rgba(255,192,203,.25), rgba(255,105,180,.25));box-shadow:0 0 6px rgba(255,182,193,.4), inset 0 0 4px rgba(255,182,193,.2)}
+
+
+/* ===== IG 圖示按鈕（使用提供的圖片；移除底線；邊緣彩虹光暈） ===== */
+.link-btn.ig-btn{
+  position: relative !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  text-decoration: none !important;
+  border-radius: 8px !important;
+}
+.link-btn.ig-btn::before{
+  content: "" !important;
+  position: absolute !important;
+  inset: -4px !important;
+  border-radius: 12px !important;
+  background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !important;
+  filter: blur(7px) !important;
+  opacity: .9 !important;
+  z-index: -1 !important;
+}
+.link-btn.ig-btn:hover{
+  transform: translateZ(0) scale(1.03) !important;
+}
+.link-btn.ig-btn img.ig-icon{
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important;
+}
+
 </style>
 </head>
 <body>
@@ -221,6 +348,14 @@
       <div class="t3">10/24 週五晚餐名單</div>
     </div>
     <div class="rainbow-line"></div>
+
+    <!-- 狀態統計（首頁） -->
+    <div id="stats" class="stats" aria-label="status summary">
+      <div class="chip ok"><span class="dot"></span><span class="lab">已確認</span><b class="num" id="statOk">0</b></div>
+      <div class="chip warn"><span class="dot"></span><span class="lab">未回覆</span><b class="num" id="statWarn">0</b></div>
+      <div class="chip bad"><span class="dot"></span><span class="lab">取消</span><b class="num" id="statBad">0</b></div>
+    </div>
+
 
     <div class="card">
       <!-- 搜尋列 -->
@@ -320,6 +455,7 @@
       const data = await res.json();
       state.rows = Array.isArray(data) ? data : (data.rows || []);
       rebuildDatalists();
+      renderStats();
       setHeadLoading(false);
     }catch(e){
       console.error(e);
@@ -366,8 +502,10 @@
 
   /* ========== (6) 搜尋 ========== */
   document.getElementById('searchBtn').addEventListener('click', search);
-  document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter') search();});
-  document.getElementById('igInput').addEventListener('keydown',e=>{if(e.key==='Enter') search();});
+  document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter') search();
+      renderStats();});
+  document.getElementById('igInput').addEventListener('keydown',e=>{if(e.key==='Enter') search();
+      renderStats();});
 
   function search(){
     const qn = norm(document.getElementById('nameInput').value);
@@ -416,12 +554,19 @@
     const L2 = document.createElement('div'); L2.className='line';
     const left2 = document.createElement('div'); left2.className='left'; left2.append(buildStatus(r.status));
     const right2 = document.createElement('div'); right2.className='right';
-    if(r.link){
-      const a=document.createElement('a');
-      a.href=r.link; a.target='_blank'; a.rel='noopener noreferrer';
-      a.className='link-btn'; a.textContent='開啟連結 / Open link';
-      right2.appendChild(a);
-    }
+    
+if(r.link){
+  const a=document.createElement('a');
+  a.href=r.link; a.target='_blank'; a.rel='noopener noreferrer';
+  a.className='link-btn ig-btn';
+  const img=document.createElement('img');
+  img.src='pngsucai_1605688_ec16ce.png';
+  img.alt='Instagram';
+  img.className='ig-icon';
+  a.appendChild(img);
+  right2.appendChild(a);
+}
+
     L2.append(left2,right2);
 
     /* 第三行：Confirm / Download（小尺寸＋中英分行） */
@@ -515,6 +660,7 @@
       showToast('已送出並更新狀態 / Submitted & updated');
       closeModal();
       search();
+      renderStats();
     }catch(err){
       console.error(err);
       showToast('送出失敗，請稍後再試 / Failed to submit');
@@ -557,6 +703,19 @@
   /* ========== (10) 啟動 ========== */
   function init(){ fetchRoster(); }
   init();
-  </script>
+  
+  function renderStats(){
+    const ok = state.rows.filter(r => (r.status||'').toString().trim().toLowerCase()==='confirmed').length;
+    const bad = state.rows.filter(r => (r.status||'').toString().trim().toLowerCase()==='cancelled').length;
+    const warn = state.rows.length - ok - bad;
+    const elOk = document.getElementById('statOk');
+    const elWarn = document.getElementById('statWarn');
+    const elBad = document.getElementById('statBad');
+    if(elOk) elOk.textContent = ok;
+    if(elWarn) elWarn.textContent = warn;
+    if(elBad) elBad.textContent = bad;
+  }
+
+</script>
 </body>
 </html>
