@@ -395,6 +395,37 @@
   border-radius:0 !important;
 }
 
+
+/* === 純漸層金色版本（無描邊，乾淨亮金） === */
+.namebar .personN{
+  font-family: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif !important;
+  background: linear-gradient(180deg,
+    #EAD28A 0%,   /* 淺金亮面 */
+    #D9B550 35%,  /* 主金色 */
+    #B98A32 70%,  /* 中金陰影 */
+    #7A6027 100%  /* 底金暗部 */
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  text-align: center !important;
+  font-weight: 900 !important;
+}
+
+/* IG：左對齊 + 銀灰色（保留簡潔） */
+.namebar .ig{
+  background: none !important;
+  color: #BFC5C9 !important;
+  text-align: left !important;
+}
+
+/* 移除右下角 RAKU 外框 / 底色 / 陰影 */
+.cat-btn{
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 </style>
 </head>
 <body>
