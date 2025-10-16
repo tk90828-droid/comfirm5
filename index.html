@@ -376,6 +376,25 @@
   transform:scale(.97);
 }
 
+
+/* === Override: show full PNG (no circular crop) === */
+.cat-btn{
+  width:auto !important;
+  height:auto !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  border:none !important;
+  padding:0 !important;
+  overflow:visible !important;
+}
+.cat-btn img.upload-icon{
+  width:auto !important;
+  height:80px !important;        /* adjust if you want a different visual size */
+  object-fit:contain !important;  /* keep full image without cropping */
+  display:block !important;
+  border-radius:0 !important;
+}
+
 </style>
 </head>
 <body>
