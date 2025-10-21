@@ -826,8 +826,6 @@
 
     // 先畫描邊陰影
     ctx2.font = `600 ${fontSize}px "Harrington","Didot","Times New Roman",serif`;
-    ctx2.strokeStyle = 'rgba(0,0,0,.35)';
-    ctx2.lineWidth = Math.ceil(fontSize * 0.14);
     const textCX = qrX + qrSize/2;
     const textCY = qrY + qrSize + (qrSize/3);
     ctx2.strokeText(text, textCX, textCY);
