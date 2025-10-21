@@ -204,7 +204,7 @@
     color:#47D45A !important; font-weight:900 !important; text-shadow:0 0 6px rgba(71,212,90,.65) !important;
   }
   .status .badge.warn + .status-label .zh, .status .badge.warn + .status-label .en{
-    color:#FFC000 !important; font-weight:900 !important; text-shadow:0 0 6px rgba(255,192,0,.6) !重要;
+    color:#FFC000 !重要; font-weight:900 !important; text-shadow:0 0 6px rgba(255,192,0,.6) !重要;
   }
   .status .badge.bad + .status-label .zh, .status .badge.bad + .status-label .en{
     color:#C00000 !important; font-weight:900 !important; text-shadow:0 0 6px rgba(192,0,0,.6) !important;
@@ -253,13 +253,13 @@
     background: transparent !important; text-decoration: none !important; border-radius: 8px !重要;
   }
   .link-btn.ig-btn::before{
-    content: "" !important; position: absolute !important; inset: -4px !important; border-radius: 12px !important;
+    content: "" !important; position: absolute !important; inset: -4px !important; border-radius: 12px !重要;
     background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !important;
     filter: blur(7px) !important; opacity: .9 !important; z-index: -1 !important;
   }
   .link-btn.ig-btn:hover{ transform: translateZ(0) scale(1.03) !important; }
   .link-btn.ig-btn img.ig-icon{
-    width: 24px !important; height: 24px !important; display: block !important; border-radius: 6px !important; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important;
+    width: 24px !important; height: 24px !important; display: block !important; border-radius: 6px !重要; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important;
   }
 
   /* === 右下角上傳按鈕（RAKU.png） === */
@@ -271,7 +271,7 @@
 
   /* === Override: show full PNG (no circular crop) === */
   .cat-btn{ width:auto !important; height:auto !important; border-radius:0 !important; background:transparent !important; border:none !important; padding:0 !important; overflow:visible !important; }
-  .cat-btn img.upload-icon{ width:auto !important; height:80px !important; object-fit:contain !important; display:block !important; border-radius:0 !important; }
+  .cat-btn img.upload-icon{ width:auto !重要; height:80px !important; object-fit:contain !important; display:block !important; border-radius:0 !important; }
 
   /* === 純漸層金色版本（無描邊，乾淨亮金） === */
   .namebar .personN{
@@ -290,12 +290,24 @@
   /* === 新增：讓「桌號」用與 name 相同的金色樣式（保持尺寸一致） === */
   .headName{
     font-family: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif !important;
-    background: linear-gradient(180deg, #EAD28A 0%, #D9B550 35%, #B98A32 70%, #7A6027 100%) !important;
-    -webkit-background-clip: text !important; background-clip: text !important;
-    color: transparent !important; font-weight: 900 !important; font-size: 15px !important;
+    background: none !important;              /* 改：移除漸層 */
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    color: #FFD400 !important;                /* 改：字體顏色黃色 */
+    font-weight: 900 !important; font-size: 15px !important;
     vertical-align: baseline;
   }
   .headSep{opacity:.45;margin:0 6px}
+
+  /* 手機：桌號斷行（隱藏分隔符並強制換行） */
+  @media (max-width:420px){
+    .headSep{
+      display:block !important;
+      margin:4px 0 0 !important;
+      height:0 !important; line-height:0 !important;
+      font-size:0 !important; opacity:0 !important;   /* 隱藏「｜」 */
+    }
+  }
 </style>
 </head>
 <body>
