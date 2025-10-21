@@ -286,6 +286,16 @@
 
   /* 移除右下角 RAKU 外框 / 底色 / 陰影 */
   .cat-btn{ border: none !important; background: transparent !important; box-shadow: none !important; }
+
+  /* === 新增：讓「桌號」用與 name 相同的金色樣式（保持尺寸一致） === */
+  .headName{
+    font-family: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif !important;
+    background: linear-gradient(180deg, #EAD28A 0%, #D9B550 35%, #B98A32 70%, #7A6027 100%) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    color: transparent !important; font-weight: 900 !important; font-size: 15px !important;
+    vertical-align: baseline;
+  }
+  .headSep{opacity:.45;margin:0 6px}
 </style>
 </head>
 <body>
@@ -563,8 +573,13 @@
       $('head').textContent='查無資料 / No results';
       return;
     }
+
+    /* ➊ 新增：取該 Leader 的桌號（以第一筆的 number 欄位為準） */
+    const tableNumber = (rows.find(r => r.number!=null && r.number!=='') || rows[0] || {}).number ?? '';
+
+    /* ➋ 新增：在標頭右側顯示「桌號 / table number」；字體樣式同 name */
     $('head').innerHTML = leader
-      ? `桌長 / Leader：<b class="rbtext">${leader||'—'}</b>（${rows.length} 筆 / records）`
+      ? `桌長 / Leader：<b class="rbtext">${leader||'—'}</b>（${rows.length} 筆 / records）<span class="headSep">｜</span>桌號 / table number：<span class="headName">${tableNumber || '—'}</span>`
       : `共 ${rows.length} 筆 / records`;
 
     rows.sort((a,b)=> by('country')(a,b) || by('name')(a,b));
@@ -830,7 +845,7 @@
     const textCY = qrY + qrSize + (qrSize/3);
     ctx2.strokeText(text, textCX, textCY);
 
-    // 金色漸層填色
+    // 金色漸層填色（此處以純色示意，維持原本行為）
     ctx2.fillStyle = '#000000';
     ctx2.fillText(text, textCX, textCY);
 
