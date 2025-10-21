@@ -28,7 +28,6 @@
   .tl .t1{font-size:28px;font-weight:900;line-height:1.15}
   .tl .t2{font-size:22px;font-weight:800;opacity:.95}
   .tl .t3{font-size:16px;font-weight:700;opacity:.9}
-
   .rainbow-line{height:2px;background:var(--rainbow);opacity:.6;border-radius:2px;margin:6px 0 14px}
 
   /* Leader 漸層字 */
@@ -50,14 +49,24 @@
   .row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,2fr) minmax(0,1fr);gap:8px;align-items:end}
   label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
   .input-wrap{display:flex;flex-direction:column;min-width:0}
-  input,button{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:#0f1117;color:var(--fg);outline:none;font-size:14px}
+  input,button{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:#0f1117;color:#0f1117;color:var(--fg);outline:none;font-size:14px}
   input::placeholder{color:#6b7280}
+
+  /* 右上方：導覽／座位圖連結區（同一行、靠右；僅文字分行） */
+  .quick-links{display:flex;flex-direction:row;justify-content:flex-end;gap:14px;margin-bottom:6px}
+  .quick-links a{font-size:12px;line-height:1.15;opacity:.95;text-align:right}
+  .quick-links small{display:block;opacity:.85}
+  /* 座位圖字置中 */
+  .quick-links a.seat-link{text-align:center}
+
   /* 搜尋按鈕：漸層青色 */
   button.primary{background:var(--btn-grad);border:0;color:#0b0c10;font-weight:900;letter-spacing:.2px}
   button.primary:hover{filter:saturate(1.08);}
 
   .preview{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap}
   .preview img{max-height:86px;border-radius:8px;border:1px solid #2b3244}
+  /* 新增：首頁不要顯示底圖縮圖 */
+  #bgPreview{display:none !important;}
 
   .result-head{font-size:13px;color:var(--muted);margin:10px 2px 6px}
 
@@ -66,7 +75,6 @@
   .person{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;display:grid;grid-template-columns:1fr;gap:6px;overflow:hidden}
   .line{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:nowrap}
   .left,.right{display:flex;gap:10px;align-items:center;min-width:0}
-  .left .flag{font-size:18px}
 
   /* 第一行：旗 / 國家 / 姓名 / IG */
   .namebar{display:flex;align-items:center;gap:8px;min-width:0}
@@ -84,15 +92,6 @@
     .namebar .personN{color:#fff;font-weight:900;font-size:15px;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .namebar .ig{color:#aeb7c2;font-size:13px;text-align:right;flex:0 1 38%;max-width:40%;min-width:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   }
-  /* 預設小字體（維持既有樣式） */
-  .namebar .personN{color:#fff;font-weight:900;font-size:15px;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .namebar .ig{color:#aeb7c2;font-size:13px;text-align:right;flex:0 1 38%;max-width:40%;min-width:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-  @media (min-width: 861px){
-    .namebar .personN,.namebar .ig{
-      color:#aeb7c2;font-size:13px;text-align:right;flex:0 1 38%;max-width:40%;min-width:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-    }
-  }
 
   /* === 狀態徽章（厚外圈＋深色內心＋白色符號；高級感） === */
   .status{display:inline-flex;align-items:center;gap:8px}
@@ -104,7 +103,6 @@
   .badge .ring{fill:#0f1117;stroke:currentColor;stroke-width:2.6}
   .badge .glyph{stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;fill:none}
   .badge .glyph-text{fill:#fff;font-size:12px;font-family:ui-sans-serif,system-ui;dominant-baseline:middle;text-anchor:middle}
-
   .status-label{display:flex;flex-direction:column;line-height:1.05}
   .status-label .zh{font-size:12px}
   .status-label .en{font-size:11px;opacity:.9}
@@ -155,10 +153,6 @@
     }
   }
   @media (max-width:420px){
-    .namebar{}
-    .namebar .ig{
-      color:#aeb7c2;font-size:13px;text-align:right;flex:0 1 38%;max-width:40%;min-width:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-    }
     .tl .t1{font-size:24px}
     .tl .t2{font-size:18px}
     .tl .t3{font-size:14px}
@@ -177,115 +171,65 @@
   .spinner{
     display:inline-block;width:14px;height:14px;margin-left:8px;vertical-align:-2px;
     border:2px solid rgba(255,255,255,.18);border-top-color:#a7f3d0;border-radius:50%;
-    animation:spin 0.9s linear infinite; box-shadow:0 0 10px rgba(167,243,208,.35)
+    animation:spin 0.9s linear infinite;
+    box-shadow:0 0 10px rgba(167,243,208,.35)
   }
   @keyframes spin{to{transform:rotate(360deg)}}
 
+  /* === 狀態文字彩色光暈（付款版） === */
+  .status .badge.warn + .status-label .zh,
+  .status .badge.warn + .status-label .en{
+    text-shadow:0 0 6px rgba(245,158,11,.65), 0 0 12px rgba(245,158,11,.35);
+  }
+  .status .badge.ok + .status-label .zh,
+  .status .badge.ok + .status-label .en{
+    text-shadow:0 0 6px rgba(34,197,94,.60), 0 0 12px rgba(34,197,94,.30);
+  }
+  .status .badge.bad + .status-label .zh,
+  .status .badge.bad + .status-label .en{
+    text-shadow:0 0 6px rgba(239,68,68,.60), 0 0 12px rgba(239,68,68,.30);
+  }
 
-/* === 状態文字彩色光暈（未回覆=橘 / 已確認=綠 / 取消=紅） === */
-.status .badge.warn + .status-label .zh,
-.status .badge.warn + .status-label .en{
-  text-shadow:0 0 6px rgba(245,158,11,.65), 0 0 12px rgba(245,158,11,.35);
-}
-.status .badge.ok + .status-label .zh,
-.status .badge.ok + .status-label .en{
-  text-shadow:0 0 6px rgba(34,197,94,.60), 0 0 12px rgba(34,197,94,.30);
-}
-.status .badge.bad + .status-label .zh,
-.status .badge.bad + .status-label .en{
-  text-shadow:0 0 6px rgba(239,68,68,.60), 0 0 12px rgba(239,68,68,.30);
-}
+  /* name 與 IG 金色（覆蓋） */
+  .namebar .personN, .namebar .ig{
+    background: linear-gradient(180deg, #EAD28A 0%, #D9B550 35%, #B98A32 70%, #7A6027 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    font-weight: 900 !important;
+  }
 
-
-/* name 與 IG 金色（覆蓋） */
-.namebar .personN,
-.namebar .ig{
-  background: linear-gradient(180deg,
-    #EAD28A 0%,
-    #D9B550 35%,
-    #B98A32 70%,
-    #7A6027 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-  font-weight: 900 !important;
-}
-
-/* ===== Overrides for status colors, buttons, and link button per request ===== */
-
-/* 1) 狀態文字：顏色 + 粗體 + 同色陰影 */
-.status .badge.ok + .status-label .zh,
-.status .badge.ok + .status-label .en{
-  color:#47D45A !important;
-  font-weight:900 !important;
-  text-shadow:0 0 6px rgba(71,212,90,.65) !important;
-}
-.status .badge.warn + .status-label .zh,
-.status .badge.warn + .status-label .en{
-  color:#FFC000 !important;
-  font-weight:900 !important;
-  text-shadow:0 0 6px rgba(255,192,0,.6) !important;
-}
-.status .badge.bad + .status-label .zh,
-.status .badge.bad + .status-label .en{
-  color:#C00000 !important;
-  font-weight:900 !important;
-  text-shadow:0 0 6px rgba(192,0,0,.6) !important;
-}
-
-/* 2) 確認 / 邀請函按鈕：改成「開啟連結」的外觀，但 hover 仍保留彩虹外框 */
-.actions .btn{
-  border: none !important;
-  background: rgba(0,255,209,.08) !important;
-  box-shadow: 0 0 0 1px rgba(0,255,209,.25),
-              0 0 18px rgba(0,255,209,.18) inset,
-              0 0 20px rgba(0,255,209,.15) !important;
-  color: #e5e7eb !important;
-  font-weight: 800 !important;
-  padding: 6px 9px;
-  border-radius: 10px;
-}
-.actions .btn:hover{
-  background: rgba(0,255,209,.08) !important;
-  box-shadow: 0 0 0 1px rgba(0,255,209,.35),
-              0 0 22px rgba(0,255,209,.22) inset,
-              0 0 24px rgba(0,255,209,.20) !important;
-  border: 1px solid transparent !important;
-  border-image: var(--rainbow) 1 !important;
-}
-
-/* 3) 開啟連結按鈕：青色文字 + 底線；移除外光與外框 */
-.link-btn{
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  color: #00FFD1 !important;
-  text-decoration: underline !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  font-weight: 800 !important;
-}
-.link-btn:hover{
-  text-decoration: underline !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-
-/* ===== 按鈕縮小高度與字體 (Confirm / Invite buttons only) ===== */
-.actions .btn{
-  padding: 4px 8px !important;
-  border-radius: 9px !important;
-  font-size: 11.5px !important;
-  line-height: 1.2 !important;
-}
-.actions .btn .zh{
-  font-size: 11.5px !important;
-}
-.actions .btn .en{
-  font-size: 10px !important;
-}
-
+  /* ===== Overrides for status colors, buttons, and link button ===== */
+  .status .badge.ok + .status-label .zh, .status .badge.ok + .status-label .en{
+    color:#47D45A !important; font-weight:900 !important; text-shadow:0 0 6px rgba(71,212,90,.65) !important;
+  }
+  .status .badge.warn + .status-label .zh, .status .badge.warn + .status-label .en{
+    color:#FFC000 !important; font-weight:900 !important; text-shadow:0 0 6px rgba(255,192,0,.6) !重要;
+  }
+  .status .badge.bad + .status-label .zh, .status .badge.bad + .status-label .en{
+    color:#C00000 !important; font-weight:900 !important; text-shadow:0 0 6px rgba(192,0,0,.6) !important;
+  }
+  .actions .btn{
+    border: none !important;
+    background: rgba(0,255,209,.08) !important;
+    box-shadow: 0 0 0 1px rgba(0,255,209,.25), 0 0 18px rgba(0,255,209,.18) inset, 0 0 20px rgba(0,255,209,.15) !important;
+    color: #e5e7eb !important;
+    font-weight: 800 !important;
+    padding: 6px 9px; border-radius: 10px;
+  }
+  .actions .btn:hover{
+    background: rgba(0,255,209,.08) !important;
+    box-shadow: 0 0 0 1px rgba(0,255,209,.35), 0 0 22px rgba(0,255,209,.22) inset, 0 0 24px rgba(0,255,209,.20) !important;
+    border: 1px solid transparent !important; border-image: var(--rainbow) 1 !important;
+  }
+  .link-btn{
+    background: transparent !important; box-shadow: none !important; border: none !important;
+    color: #00FFD1 !重要; text-decoration: underline !important; padding: 0 !important; border-radius: 0 !important; font-weight: 800 !important;
+  }
+  .link-btn:hover{ text-decoration: underline !important; box-shadow: none !important; border: none !important; }
+  .actions .btn{ padding: 4px 8px !important; border-radius: 9px !important; font-size: 11.5px !important; line-height: 1.2 !important; }
+  .actions .btn .zh{ font-size: 11.5px !important; }
+  .actions .btn .en{ font-size: 10px !important; }
 
   /* === 狀態統計列（首頁） === */
   .stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 10px}
@@ -302,130 +246,46 @@
   .ig-link svg{width:16px;height:16px;display:block}
   .ig-link:hover{background:linear-gradient(90deg, rgba(255,192,203,.25), rgba(255,105,180,.25));box-shadow:0 0 6px rgba(255,182,193,.4), inset 0 0 4px rgba(255,182,193,.2)}
 
+  /* ===== IG 圖示按鈕 ===== */
+  .link-btn.ig-btn{
+    position: relative !important; display: inline-grid !important; place-items: center !important;
+    width: 28px !important; height: 28px !important; padding: 0 !important; border: none !important;
+    background: transparent !important; text-decoration: none !important; border-radius: 8px !重要;
+  }
+  .link-btn.ig-btn::before{
+    content: "" !important; position: absolute !important; inset: -4px !important; border-radius: 12px !important;
+    background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !important;
+    filter: blur(7px) !important; opacity: .9 !important; z-index: -1 !important;
+  }
+  .link-btn.ig-btn:hover{ transform: translateZ(0) scale(1.03) !important; }
+  .link-btn.ig-btn img.ig-icon{
+    width: 24px !important; height: 24px !important; display: block !important; border-radius: 6px !important; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important;
+  }
 
-/* ===== IG 圖示按鈕（使用提供的圖片；移除底線；邊緣彩虹光暈） ===== */
-.link-btn.ig-btn{
-  position: relative !important;
-  display: inline-grid !important;
-  place-items: center !important;
-  width: 28px !important;
-  height: 28px !important;
-  padding: 0 !important;
-  border: none !important;
-  background: transparent !important;
-  text-decoration: none !important;
-  border-radius: 8px !important;
-}
-.link-btn.ig-btn::before{
-  content: "" !important;
-  position: absolute !important;
-  inset: -4px !important;
-  border-radius: 12px !important;
-  background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !important;
-  filter: blur(7px) !important;
-  opacity: .9 !important;
-  z-index: -1 !important;
-}
-.link-btn.ig-btn:hover{
-  transform: translateZ(0) scale(1.03) !important;
-}
-.link-btn.ig-btn img.ig-icon{
-  width: 24px !important;
-  height: 24px !important;
-  display: block !important;
-  border-radius: 6px !important;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important;
-}
+  /* === 右下角上傳按鈕（RAKU.png） === */
+  .cat-wrap{ position:fixed; right:12px; left:auto; bottom:12px; display:flex; gap:8px; opacity:.9; z-index:30; }
+  .cat-btn{ width:56px; height:56px; border-radius:50%; background:#0f1117; border:1px solid #2b3244; display:grid; place-items:center; cursor:pointer; transition:transform .08s ease, box-shadow .2s; overflow:hidden; padding:0; }
+  .cat-btn img.upload-icon{ width:100%; height:100%; object-fit:cover; display:block; border-radius:50%; }
+  .cat-btn:hover{ box-shadow:0 0 0 2px rgba(255,255,255,.06), 0 8px 20px rgba(0,0,0,.35); }
+  .cat-btn:active{ transform:scale(.97); }
 
+  /* === Override: show full PNG (no circular crop) === */
+  .cat-btn{ width:auto !important; height:auto !important; border-radius:0 !important; background:transparent !important; border:none !important; padding:0 !important; overflow:visible !important; }
+  .cat-btn img.upload-icon{ width:auto !important; height:80px !important; object-fit:contain !important; display:block !important; border-radius:0 !important; }
 
-/* === 右下角上傳按鈕（RAKU.png） === */
-.cat-wrap{
-  position:fixed;
-  right:12px;
-  left:auto;
-  bottom:12px;
-  display:flex;
-  gap:8px;
-  opacity:.9;
-  z-index:30;
-}
-.cat-btn{
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#0f1117;
-  border:1px solid #2b3244;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  transition:transform .08s ease, box-shadow .2s;
-  overflow:hidden;
-  padding:0;
-}
-.cat-btn img.upload-icon{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  border-radius:50%;
-}
-.cat-btn:hover{
-  box-shadow:0 0 0 2px rgba(255,255,255,.06), 0 8px 20px rgba(0,0,0,.35);
-}
-.cat-btn:active{
-  transform:scale(.97);
-}
+  /* === 純漸層金色版本（無描邊，乾淨亮金） === */
+  .namebar .personN{
+    font-family: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif !important;
+    background: linear-gradient(180deg, #EAD28A 0%, #D9B550 35%, #B98A32 70%, #7A6027 100%) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    color: transparent !important; text-align: center !important; font-weight: 900 !important;
+  }
 
+  /* IG：左對齊 + 銀灰色（保留簡潔） */
+  .namebar .ig{ background: none !important; color: #BFC5C9 !important; text-align: left !important; }
 
-/* === Override: show full PNG (no circular crop) === */
-.cat-btn{
-  width:auto !important;
-  height:auto !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  border:none !important;
-  padding:0 !important;
-  overflow:visible !important;
-}
-.cat-btn img.upload-icon{
-  width:auto !important;
-  height:80px !important;        /* adjust if you want a different visual size */
-  object-fit:contain !important;  /* keep full image without cropping */
-  display:block !important;
-  border-radius:0 !important;
-}
-
-
-/* === 純漸層金色版本（無描邊，乾淨亮金） === */
-.namebar .personN{
-  font-family: 'Montserrat', 'Helvetica Neue', 'Arial', sans-serif !important;
-  background: linear-gradient(180deg,
-    #EAD28A 0%,   /* 淺金亮面 */
-    #D9B550 35%,  /* 主金色 */
-    #B98A32 70%,  /* 中金陰影 */
-    #7A6027 100%  /* 底金暗部 */
-  ) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  color: transparent !important;
-  text-align: center !important;
-  font-weight: 900 !important;
-}
-
-/* IG：左對齊 + 銀灰色（保留簡潔） */
-.namebar .ig{
-  background: none !important;
-  color: #BFC5C9 !important;
-  text-align: left !important;
-}
-
-/* 移除右下角 RAKU 外框 / 底色 / 陰影 */
-.cat-btn{
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
+  /* 移除右下角 RAKU 外框 / 底色 / 陰影 */
+  .cat-btn{ border: none !important; background: transparent !important; box-shadow: none !important; }
 </style>
 </head>
 <body>
@@ -438,15 +298,19 @@
     </div>
     <div class="rainbow-line"></div>
 
-    <!-- 狀態統計（首頁） -->
+    <!-- 狀態統計（付款版：已付款／未付款） -->
     <div id="stats" class="stats" aria-label="status summary">
-      <div class="chip ok"><span class="dot"></span><span class="lab">已確認</span><b class="num" id="statOk">0</b></div>
-      <div class="chip warn"><span class="dot"></span><span class="lab">未回覆</span><b class="num" id="statWarn">0</b></div>
-      <div class="chip bad"><span class="dot"></span><span class="lab">取消</span><b class="num" id="statBad">0</b></div>
+      <div class="chip ok"><span class="dot"></span><span class="lab">已付款</span><b class="num" id="statOk">0</b></div>
+      <div class="chip bad"><span class="dot"></span><span class="lab">未付款</span><b class="num" id="statBad">0</b></div>
     </div>
 
-
     <div class="card">
+      <!-- 右上：導覽／座位圖（同一行，靠右；僅文字分行） -->
+      <div class="quick-links" aria-label="quick links">
+        <a id="guideLink" href="#">導覽<br><small>Guide</small></a>
+        <a id="seatLink" class="seat-link" href="#">座位圖<br><small>Seating Map</small></a>
+      </div>
+
       <!-- 搜尋列 -->
       <div class="row">
         <div class="input-wrap">
@@ -464,25 +328,29 @@
         </div>
       </div>
 
-      <!-- 底圖預覽（上傳成功才會出現縮圖） -->
+      <!-- 底圖預覽（隱藏顯示，但仍保留節點） -->
       <div id="bgPreview" class="preview" aria-label="invitation previews"></div>
 
-      <div id="head" class="result-head">資料載入中… / Loading roster… <span class="spinner" aria-hidden="true"></span></div>
+      <div id="head" class="result-head">
+        資料載入中… / Loading roster…
+        <span class="spinner" aria-hidden="true"></span>
+      </div>
+
       <div id="grid" class="grid"></div>
     </div>
   </div>
 
-  <!-- 左下角：一隻貓（上傳邀請卡底圖；僅提示密碼於 prompt，不在畫面顯示） -->
+  <!-- 右下角：RAKU（上傳邀請卡底圖） -->
   <div class="cat-wrap" aria-label="hidden-control">
     <div id="btnUploadBG" class="cat-btn" title="上傳邀請卡底圖 Upload invitation background">
-    <img src="RAKU.png" alt="Upload background" class="upload-icon">
+      <img src="RAKU.png" alt="Upload background" class="upload-icon">
+    </div>
   </div>
-</div>
 
   <!-- 隱藏 input（只剩底圖） -->
   <input id="fileBG" type="file" accept="image/*" style="display:none" />
 
-  <!-- Confirm Modal -->
+  <!-- Confirm Modal（保留原機制） -->
   <div id="confirmBackdrop" class="backdrop">
     <div class="modal">
       <div class="title2">出席確認 / Attendance Confirmation</div>
@@ -499,6 +367,24 @@
     </div>
   </div>
 
+  <!-- 邀請函預覽 Modal（按鈕文案已改成 download/close） -->
+  <div id="previewBackdrop" class="backdrop">
+    <div class="modal" style="width:min(860px,96vw);">
+      <div class="title2" id="previewTitle">邀請函預覽 / Invite Preview</div>
+      <div class="rb"></div>
+      <div style="max-height:70vh;overflow:auto;display:grid;place-items:center;padding:6px;">
+        <img id="invitePreviewImg" alt="Invite preview"
+             style="max-width:100%; max-height:68vh; height:auto; object-fit:contain; border-radius:12px; border:1px solid #2b3244"/>
+      </div>
+      <div class="actions">
+        <a id="btnDownloadPNG" class="btn btn-fill" href="#" download="invite.png">
+          download
+        </a>
+        <button id="previewClose" class="btn btn-line">close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div id="toast" class="toast"></div>
 
@@ -509,22 +395,28 @@
 
   /* ========== (2) 狀態 ========== */
   const state = {
-    rows: [],          // 雲端 roster
-    bgImages: [],      // 上傳的邀請卡底圖
-    selected: null,    // 正在 confirm 的人
+    rows: [],         // 雲端 roster
+    bgImages: [],     // 邀請卡底圖（自動載入 card.* 或手動上傳）
+    selected: null,   // 正在 confirm 的人
     confirmChoice: null
   };
 
   /* ========== (3) 小工具 ========== */
   const $ = (id)=>document.getElementById(id);
-  const showToast = (msg)=>{ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1500) };
+  const showToast = (msg)=>{
+    const t=$('toast');
+    t.textContent=msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 1500)
+  };
   const norm = (s)=> (s||'').toString().trim().toLowerCase();
   const unique = (arr)=>[...new Set(arr)];
   const by = (k)=>(a,b)=> (a[k]||'').localeCompare(b[k]||'');
 
   /* 簡易切換 head 載入中樣式（尾巴轉圈） */
   function setHeadLoading(isLoading){
-    const head = $('head'); if(!head) return;
+    const head = $('head');
+    if(!head) return;
     if(isLoading){
       head.innerHTML = '資料載入中… / Loading roster… <span class="spinner" aria-hidden="true"></span>';
     }else{
@@ -535,7 +427,10 @@
   /* ========== (4) 讀雲端名單（GAS） ========== */
   async function fetchRoster(){
     try{
-      if(!WEB_APP_URL){ $('head').textContent='尚未設定資料端點 / No WEB_APP_URL'; return; }
+      if(!WEB_APP_URL){
+        $('head').textContent='尚未設定資料端點 / No WEB_APP_URL';
+        return;
+      }
       setHeadLoading(true);
       const res = await fetch(WEB_APP_URL + '?mode=roster', { method:'GET', cache:'no-store' });
       if(!res.ok) throw new Error('network');
@@ -551,8 +446,10 @@
   }
 
   function rebuildDatalists(){
-    const dlN = $('nameList'); const dlI = $('igList');
-    dlN.innerHTML = ''; dlI.innerHTML = '';
+    const dlN = $('nameList');
+    const dlI = $('igList');
+    dlN.innerHTML = '';
+    dlI.innerHTML = '';
     unique(state.rows.map(r=>r.name).filter(Boolean).sort()).forEach(v=>{
       const o=document.createElement('option'); o.value=v; dlN.appendChild(o);
     });
@@ -561,188 +458,298 @@
     });
   }
 
+  /* ========== (4.5) 同資料夾自動載入 card.* 作為底圖（順序嘗試） ========== */
+  async function tryLoadCardBackgrounds(){
+    const candidates = ['card5.png','card.jpg','card.jpeg','card.webp','card.svg'];
+    for(const name of candidates){
+      try{
+        const img = await loadImageRelative(name);
+        state.bgImages = [img];
+        renderBGPreview(); // 仍呼叫，但 #bgPreview 已隱藏
+        showToast('已自動載入 card 底圖');
+        return;
+      }catch(_){}
+    }
+    // 若沒有 card.*，保持待上傳
+  }
+  function loadImageRelative(src){
+    return new Promise((resolve,reject)=>{
+      const img = new Image();
+      img.onload = ()=> resolve(img);
+      img.onerror = ()=> reject(new Error('not found'));
+      img.src = src; // 與本頁同資料夾
+    });
+  }
+
   /* ========== (5) 上傳邀請卡底圖（只有這個需要密碼） ========== */
-  document.getElementById('btnUploadBG').addEventListener('click', ()=>{
+  $('btnUploadBG').addEventListener('click', ()=>{
     const p = prompt('請輸入密碼 / Enter password');
     if(p===null) return;
-    if(p!==PASSWORD){ showToast('密碼錯誤 / Wrong password'); return; }
-    document.getElementById('fileBG').click();
+    if(p!==PASSWORD){
+      showToast('密碼錯誤 / Wrong password');
+      return;
+    }
+    $('fileBG').click();
   });
-  document.getElementById('fileBG').addEventListener('change', async (e)=>{
-    const files = Array.from(e.target.files||[]); if(!files.length) return;
+
+  $('fileBG').addEventListener('change', async (e)=>{
+    const files = Array.from(e.target.files||[]);
+    if(!files.length) return;
     state.bgImages = [];
     for(const f of files){
       const img = await fileToImage(f);
       state.bgImages.push(img);
     }
-    renderBGPreview();
+    renderBGPreview(); // 仍更新，但不顯示
     showToast('邀請函底圖已載入 / Invitation background loaded');
     e.target.value='';
   });
+
   function fileToImage(file){
-    return new Promise((res,rej)=>{ const img=new Image(); img.onload=()=>res(img); img.onerror=rej; img.src=URL.createObjectURL(file); });
+    return new Promise((res,rej)=>{
+      const img=new Image();
+      img.onload=()=>res(img);
+      img.onerror=rej;
+      img.src=URL.createObjectURL(file);
+    });
   }
+
   function renderBGPreview(){
-    const box=document.getElementById('bgPreview'); box.innerHTML='';
-    state.bgImages.forEach(img=>{ const el=document.createElement('img'); el.src=img.src; box.appendChild(el);});
+    const box=$('bgPreview');
+    box.innerHTML='';
+    state.bgImages.forEach(img=>{
+      const el=document.createElement('img');
+      el.src=img.src;
+      box.appendChild(el);
+    });
   }
 
   /* ========== (6) 搜尋 ========== */
-  document.getElementById('searchBtn').addEventListener('click', search);
-  document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter') search();
-      renderStats();});
-  document.getElementById('igInput').addEventListener('keydown',e=>{if(e.key==='Enter') search();
-      renderStats();});
+  $('searchBtn').addEventListener('click', search);
+  $('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter') search(); renderStats();});
+  $('igInput').addEventListener('keydown',e=>{if(e.key==='Enter') search(); renderStats();});
 
   function search(){
-    const qn = norm(document.getElementById('nameInput').value);
-    const qi = norm(document.getElementById('igInput').value);
-    if(!state.rows.length){ showToast('雲端名單尚未就緒 / Roster not ready'); return; }
-
+    const qn = norm($('nameInput').value);
+    const qi = norm($('igInput').value);
+    if(!state.rows.length){
+      showToast('雲端名單尚未就緒 / Roster not ready');
+      return;
+    }
     let sel = null;
     if(qi) sel = state.rows.find(r=>norm(r.ig)===qi);
     if(!sel && qn) sel = state.rows.find(r=>norm(r.name)===qn);
 
-    let rows=[]; let leader='';
-    if(sel){ leader = sel.leader; rows = state.rows.filter(r=>norm(r.leader)===norm(leader)); }
-    else{
+    let rows=[];
+    let leader='';
+    if(sel){
+      leader = sel.leader;
+      rows = state.rows.filter(r=>norm(r.leader)===norm(leader));
+    }else{
       const cand = state.rows.filter(r=> (qi && norm(r.ig).includes(qi)) || (qn && norm(r.name).includes(qn)) );
-      if(cand.length){ leader = cand[0].leader; rows = state.rows.filter(r=>norm(r.leader)===norm(leader)); }
+      if(cand.length){
+        leader = cand[0].leader;
+        rows = state.rows.filter(r=>norm(r.leader)===norm(leader));
+      }
     }
     renderList(rows, leader);
   }
 
-  /* ========== (7) 列表渲染 ========== */
+  /* ========== (7) 列表渲染（付款狀態文字） ========== */
   function renderList(rows, leader){
-    const grid = document.getElementById('grid'); grid.innerHTML='';
-    if(!rows || !rows.length){ document.getElementById('head').textContent='查無資料 / No results'; return; }
-    document.getElementById('head').innerHTML = leader
+    const grid = $('grid');
+    grid.innerHTML='';
+    if(!rows || !rows.length){
+      $('head').textContent='查無資料 / No results';
+      return;
+    }
+    $('head').innerHTML = leader
       ? `桌長 / Leader：<b class="rbtext">${leader||'—'}</b>（${rows.length} 筆 / records）`
       : `共 ${rows.length} 筆 / records`;
 
     rows.sort((a,b)=> by('country')(a,b) || by('name')(a,b));
-    for(const r of rows){ grid.appendChild(renderPerson(r)); }
+    for(const r of rows){
+      grid.appendChild(renderPerson(r));
+    }
   }
 
   function renderPerson(r){
-    const card = document.createElement('div'); card.className='person';
+    const card = document.createElement('div');
+    card.className='person';
 
-    /* 第一行：旗 / 國家 / 姓名 / IG（桌機可自動換行顯示完整） */
-    const L1 = document.createElement('div'); L1.className='line';
-    const left1 = document.createElement('div'); left1.className='left namebar';
-    const flag = document.createElement('div'); flag.className='flag'; flag.textContent = r.flag || '—';
-    const ctry = document.createElement('span'); ctry.className='country'; ctry.textContent = (r.country||'—');
-    const personN = document.createElement('span'); personN.className='personN'; personN.textContent = (r.name||'—');
-    const ig = document.createElement('span'); ig.className='ig'; ig.textContent = (r.ig||'—');
+    /* 第一行：旗 / 國家 / 姓名 / IG */
+    const L1 = document.createElement('div');
+    L1.className='line';
+    const left1 = document.createElement('div');
+    left1.className='left namebar';
+
+    const flag = document.createElement('div');
+    flag.className='flag';
+    flag.textContent = r.flag || '—';
+
+    const ctry = document.createElement('span');
+    ctry.className='country';
+    ctry.textContent = (r.country||'—');
+
+    const personN = document.createElement('span');
+    personN.className='personN';
+    personN.textContent = (r.name||'—');
+
+    const ig = document.createElement('span');
+    ig.className='ig';
+    ig.textContent = (r.ig||'—');
+
     left1.append(flag, ctry, personN, ig);
     L1.append(left1);
 
-    /* 第二行（左：狀態；右：開啟連結） */
-    const L2 = document.createElement('div'); L2.className='line';
-    const left2 = document.createElement('div'); left2.className='left'; left2.append(buildStatus(r.status));
-    const right2 = document.createElement('div'); right2.className='right';
-    
-if(r.link){
-  const a=document.createElement('a');
-  a.href=r.link; a.target='_blank'; a.rel='noopener noreferrer';
-  a.className='link-btn ig-btn';
-  const img=document.createElement('img');
-  img.src='pngsucai_1605688_ec16ce.png';
-  img.alt='Instagram';
-  img.className='ig-icon';
-  a.appendChild(img);
-  right2.appendChild(a);
-}
+    /* 第二行（左：付款狀態；右：開啟連結） */
+    const L2 = document.createElement('div');
+    L2.className='line';
+    const left2 = document.createElement('div');
+    left2.className='left';
+    left2.append(buildStatus(r.pay_status));
 
+    const right2 = document.createElement('div');
+    right2.className='right';
+    if(r.link){
+      const a=document.createElement('a');
+      a.href=r.link;
+      a.target='_blank';
+      a.rel='noopener noreferrer';
+      a.className='link-btn ig-btn';
+      const img=document.createElement('img');
+      img.src='pngsucai_1605688_ec16ce.png';
+      img.alt='Instagram';
+      img.className='ig-icon';
+      a.appendChild(img);
+      right2.appendChild(a);
+    }
     L2.append(left2,right2);
 
     /* 第三行：Confirm / Download（小尺寸＋中英分行） */
-    const L3 = document.createElement('div'); L3.className='actions';
-    const btnC = document.createElement('button'); btnC.className='btn';
+    const L3 = document.createElement('div');
+    L3.className='actions';
+    const btnC = document.createElement('button');
+    btnC.className='btn';
     btnC.innerHTML='<span class="zh">確認</span><span class="en">Confirm</span>';
     btnC.addEventListener('click',()=> openConfirm(r));
 
-    const btnD = document.createElement('button'); btnD.className='btn';
+    const btnD = document.createElement('button');
+    btnD.className='btn';
     btnD.innerHTML='<span class="zh">邀請函下載</span><span class="en">Download Invite</span>';
     btnD.addEventListener('click',()=> downloadInvite(r));
 
     L3.append(btnC, btnD);
+
     card.append(L1,L2,L3);
     return card;
   }
 
-  function buildStatus(status){
-    const box=document.createElement('div'); box.className='status';
-    const s = (status||'').toString().trim().toLowerCase();
-    let type='warn', zh='未回覆', en='Pending', iconType='warn';
-    if(s==='confirmed'){ type='ok'; zh='已確定訂位'; en='Confirmed'; iconType='ok'; }
-    else if(s==='cancelled'){ type='bad'; zh='取消參加'; en='Cancelled'; iconType='bad'; }
-    const badge=document.createElement('div'); badge.className='badge '+type; badge.innerHTML = svgIcon(iconType);
-    const lab=document.createElement('div'); lab.className='status-label';
+  /* ===== 付款狀態：僅分「已付款(綠)／未付款(紅)」，來源為 pay_status ===== */
+  function buildStatus(payStatus){
+    const box=document.createElement('div');
+    box.className='status';
+    const s = (payStatus||'').toString().trim().toLowerCase();
+
+    // 視為「已付款」的常見值
+    const paidSet = new Set(['paid','pay','yes','y','true','1','已付款','付清','完成付款']);
+    const isPaid = paidSet.has(s);
+
+    const type = isPaid ? 'ok' : 'bad';
+    const zh   = isPaid ? '已付款' : '未付款';
+    const en   = isPaid ? 'Paid'   : 'Unpaid';
+    const iconType = isPaid ? 'ok' : 'bad';
+
+    const badge=document.createElement('div');
+    badge.className='badge '+type;
+    badge.innerHTML = svgIcon(iconType);
+
+    const lab=document.createElement('div');
+    lab.className='status-label';
     lab.innerHTML = `<span class="zh">${zh}</span><span class="en">${en}</span>`;
-    box.append(badge,lab); return box;
+
+    box.append(badge,lab);
+    return box;
   }
 
-  /* 高質感圓形圖標：ok=勾、warn=問號、bad=叉（厚外圈＋深色內心＋白色符號） */
+  /* 高質感圓形圖標：ok=勾、bad=叉（厚外圈＋深色內心＋白色符號） */
   function svgIcon(kind){
     if(kind==='ok'){
       return `
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle class="ring" cx="12" cy="12" r="10.5" />
           <path class="glyph" d="M7 12.5l3 3 6-6" />
-        </svg>
-      `;
+        </svg>`;
     }
-    if(kind==='bad'){
-      return `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle class="ring" cx="12" cy="12" r="10.5" />
-          <path class="glyph" d="M8 8l8 8M16 8l-8 8" />
-        </svg>
-      `;
-    }
-    /* warn（預設） */
+    /* bad（未付款） */
     return `
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <circle class="ring" cx="12" cy="12" r="10.5" />
-        <text class="glyph-text" x="12" y="12">?</text>
-      </svg>
-    `;
+        <path class="glyph" d="M8 8l8 8M16 8l-8 8" />
+      </svg>`;
   }
 
-  /* ========== (8) Confirm Modal ========== */
-  const modal=document.getElementById('confirmBackdrop');
-  const noteArea=document.getElementById('noteArea');
-  const btnSubmit=document.getElementById('confirmSubmit');
+  /* ========== (8) Confirm Modal（保留原流程） ========== */
+  const modal=$('confirmBackdrop');
+  const noteArea=$('noteArea');
+  const btnSubmit=$('confirmSubmit');
+
   document.querySelectorAll('.opt').forEach(el=> el.addEventListener('click',()=> selectOpt(el)) );
-  document.getElementById('confirmCancel').addEventListener('click', ()=> closeModal());
+  $('confirmCancel').addEventListener('click', ()=> closeModal());
 
   function openConfirm(person){
-    state.selected = person; state.confirmChoice = null; noteArea.value='';
+    state.selected = person;
+    state.confirmChoice = null;
+    noteArea.value='';
     document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));
     modal.style.display='flex';
   }
   function selectOpt(el){
     document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));
-    el.classList.add('active'); state.confirmChoice = el.dataset.val;
+    el.classList.add('active');
+    state.confirmChoice = el.dataset.val;
   }
   function closeModal(){ modal.style.display='none'; }
 
   btnSubmit.addEventListener('click', async ()=>{
-    if(!state.confirmChoice){ showToast('請選擇一個選項 / Please choose an option'); return; }
-    const person = state.selected; if(!person){ closeModal(); return; }
+    if(!state.confirmChoice){
+      showToast('請選擇一個選項 / Please choose an option'); return;
+    }
+    const person = state.selected;
+    if(!person){ closeModal(); return; }
+
     const payload = {
       action:'updateStatus',
-      item: person.item, number: person.number, country: person.country, flag: person.flag,
-      name: person.name, ig: person.ig, leader: person.leader, link: person.link,
-      status: state.confirmChoice, notes: noteArea.value.trim(), ts: Date.now()
+      item: person.item,
+      number: person.number,
+      country: person.country,
+      flag: person.flag,
+      name: person.name,
+      ig: person.ig,
+      leader: person.leader,
+      link: person.link,
+      status: state.confirmChoice,
+      notes: noteArea.value.trim(),
+      ts: Date.now()
     };
 
-    btnSubmit.disabled=true; btnSubmit.textContent='傳送中… / Sending…';
+    btnSubmit.disabled=true;
+    btnSubmit.textContent='傳送中… / Sending…';
     try{
-      const res = await fetch(WEB_APP_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload), mode:'cors', cache:'no-store' });
-      let ok=false; try{ const j=await res.json(); ok=!!j.ok || Array.isArray(j); }catch{ ok=res.ok; }
+      const res = await fetch(WEB_APP_URL, {
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload),
+        mode:'cors',
+        cache:'no-store'
+      });
+      let ok=false;
+      try{
+        const j=await res.json();
+        ok=!!j.ok || Array.isArray(j);
+      }catch{ ok=res.ok; }
       if(!ok) throw new Error('SERVER_NOK');
+
       person.status = state.confirmChoice;
       showToast('已送出並更新狀態 / Submitted & updated');
       closeModal();
@@ -751,58 +758,152 @@ if(r.link){
     }catch(err){
       console.error(err);
       showToast('送出失敗，請稍後再試 / Failed to submit');
-    }finally{ btnSubmit.disabled=false; btnSubmit.textContent='送出 / Submit'; }
+    }finally{
+      btnSubmit.disabled=false;
+      btnSubmit.textContent='送出 / Submit';
+    }
   });
 
-  /* ========== (9) 邀請卡下載：item-number 置於安全區（直/橫自適） ========== */
+  /* ========== (9) 邀請卡下載：文字改為「number - item」，高級廣告字體＋金色漸層 ========== */
   async function downloadInvite(person){
-    if(!state.bgImages.length){ showToast('請先上傳邀請卡底圖 / Upload background first'); return; }
-    const img = state.bgImages[0];
-    const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-    const W = img.naturalWidth, H = img.naturalHeight; canvas.width=W; canvas.height=H;
-    ctx.drawImage(img,0,0,W,H);
-
-    const isH = W>=H;
-    const box = isH
-      ? { x: 0.60*W, y: 0.70*H, w: 0.35*W, h: 0.18*H }
-      : { x: 0.15*W, y: 0.60*H, w: 0.70*W, h: 0.16*H };
-
-    const text = `${person.item||''}-${person.number||''}`.trim();
-    const fontFamily = 'ui-sans-serif, system-ui, "Noto Sans TC", "Microsoft JhengHei"';
-    ctx.textBaseline='middle'; ctx.textAlign='center';
-    let fontSize = Math.min(box.h*0.6, box.w*0.22);
-    while(fontSize>10){
-      ctx.font = `800 ${fontSize}px ${fontFamily}`;
-      const w = ctx.measureText(text).width;
-      if(w<=box.w) break;
-      fontSize -= 1;
+    if(!state.bgImages.length){
+      showToast('找不到邀請卡底圖，請放同資料夾的 card.* 或用 RAKU 上傳'); return;
     }
-    const cx = box.x + box.w/2, cy = box.y + box.h/2;
-    ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur=8; ctx.fillStyle = '#fff';
-    ctx.fillText(text, cx, cy);
+    const content = (person.qrcode || '').toString().trim();
+    const numberText = (person.number || '').toString();
+    const itemText = (person.item || '').toString();
+    if(!content){
+      showToast('此列沒有 qrcode 欄位內容'); return;
+    }
 
-    const a=document.createElement('a');
-    const safeName = (person.name||'guest').replace(/[^\w\u4e00-\u9fa5-]+/g,'_');
-    a.download = `${person.item||''}-${person.number||''}-${safeName}.png`;
-    a.href = canvas.toDataURL('image/png'); a.click();
+    const bg = state.bgImages[0];
+    const W = bg.naturalWidth || bg.width, H = bg.naturalHeight || bg.height;
+
+    // 主畫布
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = W;
+    canvas.height = H;
+
+    // 先畫底圖
+    ctx.drawImage(bg,0,0,W,H);
+
+    // === QR 放在「底部中間」 ===
+    const margin = 0.08 * Math.min(W,H);
+    const qrSize = Math.floor(0.22 * W);
+    const textGap = qrSize / 3;
+    const qrX = Math.floor((W - qrSize) / 2);
+    const qrY = Math.floor(H - margin - qrSize - textGap);
+
+    // 產生 QR 圖
+    const encoded = encodeURIComponent(content);
+    const apiURL = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&ecc=M&data=${encoded}`;
+
+    const qrImg = new Image();
+    qrImg.crossOrigin = 'anonymous';
+    const loaded = new Promise((resolve,reject)=>{
+      qrImg.onload = resolve;
+      qrImg.onerror = ()=> reject(new Error('QR API 載入失敗'));
+    });
+    qrImg.src = apiURL;
+
+    try{
+      await loaded;
+    }catch(err){
+      console.error(err);
+      showToast('QR 產生失敗，請稍後再試'); return;
+    }
+
+    // 貼上 QR（底部中間）
+    const ctx2 = ctx;
+    ctx2.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+
+    // number - item：字體為 QR 的 1/4，置於 QR 正下方 1/3；金色漸層
+    const text = (numberText || '') + (itemText ? ' - ' + itemText : '');
+    const fontSize = Math.max(10, Math.floor(qrSize * 0.25));
+    ctx2.textAlign = 'center';
+    ctx2.textBaseline = 'middle';
+
+    // 先畫描邊陰影
+    ctx2.font = `600 ${fontSize}px "Harrington","Didot","Times New Roman",serif`;
+    ctx2.strokeStyle = 'rgba(0,0,0,.35)';
+    ctx2.lineWidth = Math.ceil(fontSize * 0.14);
+    const textCX = qrX + qrSize/2;
+    const textCY = qrY + qrSize + (qrSize/3);
+    ctx2.strokeText(text, textCX, textCY);
+
+    // 金色漸層填色
+    ctx2.fillStyle = '#000000';
+    ctx2.fillText(text, textCX, textCY);
+
+    // 下載與預覽
+    try {
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      if (!blob) throw new Error('TO_BLOB_FAILED');
+
+      const url = URL.createObjectURL(blob);
+      const img = $('invitePreviewImg');
+      const dl  = $('btnDownloadPNG');
+      const title = $('previewTitle');
+
+      img.src = url; // 預覽
+      const safeName = (person.name||'guest').replace(/[^\w\u4e00-\u9fa5-]+/g,'_');
+      dl.download = `invite_${person.number||''}_${safeName}.png`;
+      dl.href = url;
+      if(title) title.textContent = '邀請函預覽 / Invite Preview';
+
+      dl.onclick = () => setTimeout(()=> URL.revokeObjectURL(url), 4000);
+      openPreview();
+    } catch (e) {
+      console.error(e);
+      showToast('產生下載連結失敗，請稍後再試');
+    }
   }
+
+  /* === 用於導覽／座位圖：開啟本地圖片的懸浮視窗預覽與下載 === */
+  function openStaticImage(path, downloadName, titleText){
+    const img = $('invitePreviewImg');
+    const dl  = $('btnDownloadPNG');
+    const title = $('previewTitle');
+    img.src = path;             // 直接預覽整張圖
+    dl.href = path;             // 下載原檔
+    dl.download = downloadName; // 下載檔名
+    if(title) title.textContent = titleText;
+    openPreview();
+  }
+
+  /* === 預覽彈窗控制 === */
+  const previewBackdrop = $('previewBackdrop');
+  $('previewClose').addEventListener('click', ()=>{ previewBackdrop.style.display='none'; });
+  function openPreview(){ previewBackdrop.style.display='flex'; }
 
   /* ========== (10) 啟動 ========== */
-  function init(){ fetchRoster(); }
-  init();
-  
-  function renderStats(){
-    const ok = state.rows.filter(r => (r.status||'').toString().trim().toLowerCase()==='confirmed').length;
-    const bad = state.rows.filter(r => (r.status||'').toString().trim().toLowerCase()==='cancelled').length;
-    const warn = state.rows.length - ok - bad;
-    const elOk = document.getElementById('statOk');
-    const elWarn = document.getElementById('statWarn');
-    const elBad = document.getElementById('statBad');
-    if(elOk) elOk.textContent = ok;
-    if(elWarn) elWarn.textContent = warn;
-    if(elBad) elBad.textContent = bad;
-  }
+  function init(){
+    fetchRoster();
+    tryLoadCardBackgrounds(); // 自動載入 card.* 作為底圖（若存在）
 
-</script>
+    // 導覽／座位圖：改成開啟懸浮預覽 + 下載
+    const guide = $('guideLink');
+    const seat  = $('seatLink');
+    if(guide){
+      guide.addEventListener('click', (e)=>{ e.preventDefault(); openStaticImage('pic1.jpg','guide.png','導覽 / Guide'); });
+    }
+    if(seat){
+      seat.addEventListener('click', (e)=>{ e.preventDefault(); openStaticImage('pic2.jpg','seating.png','座位圖 / Seating Map'); });
+    }
+  }
+  init();
+
+  /* ===== 統計改為付款語意：Paid / Unpaid（來源 pay_status） ===== */
+  function renderStats(){
+    const paidSet = new Set(['paid','pay','yes','y','true','1','已付款','付清','完成付款']);
+    const paid = state.rows.filter(r => paidSet.has((r.pay_status||'').toString().trim().toLowerCase())).length;
+    const unpaid = state.rows.length - paid;
+    const elOk = document.getElementById('statOk');
+    const elBad = document.getElementById('statBad');
+    if(elOk) elOk.textContent = paid;   // 已付款
+    if(elBad) elBad.textContent = unpaid; // 未付款
+  }
+  </script>
 </body>
 </html>
