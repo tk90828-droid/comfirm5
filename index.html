@@ -35,7 +35,7 @@
       background: linear-gradient(180deg, rgba(10,11,15,.85), rgba(10,11,15,.65));
       backdrop-filter: blur(4px);
     }
-    .freeze-inner{max-width:980px;margin:0 auto;padding:10px 14px 0}
+    .freeze-inner{max-width:980px;margin:0 auto;padding:10px 14px 6px} /* 下內距小幅增加以容納緊貼內容 */
 
     /* RAKU 與彩虹底線的承載容器（讓貓咪坐在線上） */
     .raku-holder{position:relative}
@@ -46,7 +46,7 @@
       display:inline-grid; place-items:center;
     }
 
-    .rainbow-line{height:2px;background:var(--rainbow);opacity:.6;border-radius:2px;margin:0 0 14px}
+    .rainbow-line{height:2px;background:var(--rainbow);opacity:.6;border-radius:2px;margin:0 0 6px} /* 與下方內容更貼近 */
 
     /* Leader 漸層字 */
     .rbtext{
@@ -251,14 +251,14 @@
     }
     .link-btn.ig-btn::before{
       content: "" !important; position: absolute !important; inset: -4px !important; border-radius: 12px !重要;
-      background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !important;
-      filter: blur(7px) !important; opacity: .9 !important; z-index: -1 !important;
+      background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !重要;
+      filter: blur(7px) !重要; opacity: .9 !重要; z-index: -1 !重要;
     }
     .link-btn.ig-btn:hover{ transform: translateZ(0) scale(1.03) !important; }
     .link-btn.ig-btn img.ig-icon{ width: 24px !important; height: 24px !important; display: block !important; border-radius: 6px !重要; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important; }
 
     /* === RAKU 上傳按鈕使用原 .cat-btn 樣式，改為顯示完整 PNG === */
-    .cat-btn{ width:auto !important; height:auto !important; border-radius:0 !important; background:transparent !important; border:none !important; padding:0 !important; overflow:visible !important; cursor:pointer; }
+    .cat-btn{ width:auto !important; height:auto !important; border-radius:0 !important; background:transparent !important; border:none !重要; padding:0 !important; overflow:visible !important; cursor:pointer; }
     .cat-btn img.upload-icon{ width:auto !important; height:80px !important; object-fit:contain !important; display:block !important; border-radius:0 !important; }
 
     /* === 純漸層金色版本（無描邊，乾淨亮金） === */
@@ -269,7 +269,7 @@
       text-align: center !important; font-weight: 900 !important;
     }
     /* IG：左對齊 + 銀灰色（保留簡潔） */
-    .namebar .ig{ background: none !important; color: #BFC5C9 !important; text-align: left !important; }
+    .namebar .ig{ background: none !important; color: #BFC5C9 !important; text-align: left !重要; }
 
     /* === 新增：讓「桌號」用與 name 相同的金色樣式（保持尺寸一致） === */
     .headName{
@@ -281,22 +281,22 @@
     /* 手機：桌號斷行（隱藏分隔符並強制換行） */
     @media (max-width:420px){
       .headSep{
-        display:block !important; margin:4px 0 0 !important; height:0 !important; line-height:0 !important; font-size:0 !important; opacity:0 !important;
+        display:block !important; margin:4px 0 0 !important; height:0 !important; line-height:0 !important; font-size:0 !important; opacity:0 !重要;
       }
     }
 
-    /* === 🔹 新增：把「已/未付款」與「導覽/座位圖」放到同一水平列 === */
+    /* === 🔹 新增：把「已/未付款」與「導覽/座位圖」放到同一水平列（移入凍結窗格） === */
     .top-row{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; margin:8px 0 10px;
-      flex-wrap:wrap; /* 窄螢幕自動換到下一行，但各自仍成一塊 */
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin:4px 0; /* 更緊湊 */
+      flex-wrap:wrap;
     }
-    .top-row .stats{margin:0}         /* 與右側對齊，拿掉原 stats 外距 */
-    .top-row .quick-links{margin:0}   /* 右側也移除外距 */
+    .top-row .stats{margin:0}
+    .top-row .quick-links{margin:0}
   </style>
 </head>
 <body>
 
-  <!-- === 凍結窗格（上方固定：三行標題＋右上 RAKU ＋ 彩虹底線） === -->
+  <!-- === 凍結窗格（上方固定：三行標題＋右上 RAKU ＋ 彩虹底線＋付款總覽/座位表） === -->
   <div class="freeze-pane" aria-label="frozen top">
     <div class="freeze-inner">
       <!-- 三行標題（白字＋光暈） -->
@@ -315,28 +315,24 @@
         </div>
         <div class="rainbow-line"></div>
       </div>
+
+      <!-- 🔹 緊貼彩虹線下方：付款狀態總覽 + 導覽/座位表（一起固定） -->
+      <div class="top-row" aria-label="stats and quick links row">
+        <div id="stats" class="stats" aria-label="status summary">
+          <div class="chip ok"><span class="dot"></span><span class="lab">已付款</span><b class="num" id="statOk">0</b></div>
+          <div class="chip bad"><span class="dot"></span><span class="lab">未付款</span><b class="num" id="statBad">0</b></div>
+        </div>
+        <div class="quick-links" aria-label="quick links">
+          <a id="guideLink" href="#">導覽<br><small>Guide</small></a>
+          <a id="seatLink" class="seat-link" href="#">座位圖<br><small>Seating Map</small></a>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- 內容從這裡開始滾動（姓名搜尋以下） -->
   <div class="wrap">
-    <!-- 🔹 新增水平列：左側統計、右側導覽連結 -->
-    <div class="top-row" aria-label="stats and quick links row">
-      <!-- 狀態統計（付款版：已付款／未付款） -->
-      <div id="stats" class="stats" aria-label="status summary">
-        <div class="chip ok"><span class="dot"></span><span class="lab">已付款</span><b class="num" id="statOk">0</b></div>
-        <div class="chip bad"><span class="dot"></span><span class="lab">未付款</span><b class="num" id="statBad">0</b></div>
-      </div>
-
-      <!-- 導覽／座位圖（與統計同列、靠右） -->
-      <div class="quick-links" aria-label="quick links">
-        <a id="guideLink" href="#">導覽<br><small>Guide</small></a>
-        <a id="seatLink" class="seat-link" href="#">座位圖<br><small>Seating Map</small></a>
-      </div>
-    </div>
-
     <div class="card">
-      <!--（此處已移除 quick-links）-->
-
       <!-- 搜尋列 -->
       <div class="row">
         <div class="input-wrap">
@@ -365,8 +361,6 @@
       <div id="grid" class="grid"></div>
     </div>
   </div>
-
-  <!--（移除原本右下角固定的 .cat-wrap 區塊）-->
 
   <!-- 隱藏 input（只剩底圖） -->
   <input id="fileBG" type="file" accept="image/*" style="display:none" />
