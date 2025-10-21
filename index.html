@@ -221,8 +221,8 @@
       box-shadow: 0 0 0 1px rgba(0,255,209,.35), 0 0 22px rgba(0,255,209,.22) inset, 0 0 24px rgba(0,255,209,.20) !important;
       border: 1px solid transparent !important; border-image: var(--rainbow) 1 !important;
     }
-    .link-btn{ background: transparent !important; box-shadow: none !important; border: none !important; color: #00FFD1 !重要; text-decoration: underline !重要; padding: 0 !important; border-radius: 0 !important; font-weight: 800 !important; }
-    .link-btn:hover{ text-decoration: underline !important; box-shadow: none !important; border: none !important; }
+    .link-btn{ background: transparent !重要; box-shadow: none !重要; border: none !重要; color: #00FFD1 !重要; text-decoration: underline !重要; padding: 0 !重要; border-radius: 0 !重要; font-weight: 800 !重要; }
+    .link-btn:hover{ text-decoration: underline !重要; box-shadow: none !重要; border: none !重要; }
 
     .actions .btn{ padding: 4px 8px !important; border-radius: 9px !important; font-size: 11.5px !important; line-height: 1.2 !important; }
     .actions .btn .zh{ font-size: 11.5px !important; }
@@ -246,20 +246,20 @@
     /* ===== IG 圖示按鈕 ===== */
     .link-btn.ig-btn{
       position: relative !important; display: inline-grid !important; place-items: center !important;
-      width: 28px !important; height: 28px !important; padding: 0 !重要; border: none !important;
-      background: transparent !important; text-decoration: none !important; border-radius: 8px !重要;
+      width: 28px !重要; height: 28px !重要; padding: 0 !重要; border: none !重要;
+      background: transparent !重要; text-decoration: none !重要; border-radius: 8px !重要;
     }
     .link-btn.ig-btn::before{
-      content: "" !important; position: absolute !important; inset: -4px !important; border-radius: 12px !重要;
+      content: "" !重要; position: absolute !重要; inset: -4px !重要; border-radius: 12px !重要;
       background: conic-gradient(#ff5f6d,#ffc371,#9be15d,#00e3ae,#45aaf2,#9b59b6,#ff5f6d) !重要;
       filter: blur(7px) !重要; opacity: .9 !重要; z-index: -1 !重要;
     }
-    .link-btn.ig-btn:hover{ transform: translateZ(0) scale(1.03) !important; }
-    .link-btn.ig-btn img.ig-icon{ width: 24px !important; height: 24px !important; display: block !important; border-radius: 6px !重要; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !important; }
+    .link-btn.ig-btn:hover{ transform: translateZ(0) scale(1.03) !重要; }
+    .link-btn.ig-btn img.ig-icon{ width: 24px !重要; height: 24px !重要; display: block !重要; border-radius: 6px !重要; box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset !重要; }
 
     /* === RAKU 上傳按鈕使用原 .cat-btn 樣式，改為顯示完整 PNG === */
-    .cat-btn{ width:auto !important; height:auto !important; border-radius:0 !important; background:transparent !important; border:none !重要; padding:0 !important; overflow:visible !important; cursor:pointer; }
-    .cat-btn img.upload-icon{ width:auto !important; height:80px !important; object-fit:contain !important; display:block !important; border-radius:0 !important; }
+    .cat-btn{ width:auto !重要; height:auto !重要; border-radius:0 !重要; background:transparent !重要; border:none !重要; padding:0 !重要; overflow:visible !重要; cursor:pointer; }
+    .cat-btn img.upload-icon{ width:auto !重要; height:80px !重要; object-fit:contain !重要; display:block !重要; border-radius:0 !重要; }
 
     /* === 純漸層金色版本（無描邊，乾淨亮金） === */
     .namebar .personN{
@@ -268,8 +268,8 @@
       -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important;
       text-align: center !important; font-weight: 900 !important;
     }
-    /* IG：左對齊 + 銀灰色（保留簡潔） */
-    .namebar .ig{ background: none !important; color: #BFC5C9 !important; text-align: left !重要; }
+    /* IG：左對齊 + 銀灰色（保留簡潔） —— 修正為真正的 !important 覆蓋 */
+    .namebar .ig{ background: none !important; color: #BFC5C9 !important; text-align: left !important; }
 
     /* === 新增：讓「桌號」用與 name 相同的金色樣式（保持尺寸一致） === */
     .headName{
