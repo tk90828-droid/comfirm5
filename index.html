@@ -247,7 +247,7 @@
     .link-btn.ig-btn{
       position: relative !important; display: inline-grid !important; place-items: center !important;
       width: 28px !important; height: 28px !important; padding: 0 !important; border: none !important;
-      background: transparent !important; text-decoration: none !important; border-radius: 8px !important;
+      background: transparent !important; text-decoration: none !重要; border-radius: 8px !important;
     }
     .link-btn.ig-btn::before{
       content: "" !important; position: absolute !important; inset: -4px !important; border-radius: 12px !important;
@@ -326,7 +326,7 @@
           <div class="chip bad"><span class="dot"></span><span class="lab">未付款</span><b class="num" id="statBad">0</b></div>
         </div>
         <div class="quick-links" aria-label="quick links">
-          <a id="guideLink" href="#">導覽<br><small>Guide</small></a>
+          <a id="guideLink" href="#">導覽<br><small>Map</small></a>
           <a id="seatLink" class="seat-link" href="#">座位圖<br><small>Seating Map</small></a>
         </div>
       </div>
@@ -724,7 +724,7 @@
 
       const guide = document.getElementById('guideLink');
       const seat = document.getElementById('seatLink');
-      if(guide){ guide.addEventListener('click', (e)=>{ e.preventDefault(); openStaticImage('pic1.jpg','guide.png','導覽 / Guide'); }); }
+      if(guide){ guide.addEventListener('click', (e)=>{ e.preventDefault(); openStaticImage('pic1.jpg','guide.png','導覽 / Map'); }); }
       if(seat){ seat.addEventListener('click', (e)=>{ e.preventDefault(); openStaticImage('pic2.jpg','seating.png','座位圖 / Seating Map'); }); }
     }
     init();
